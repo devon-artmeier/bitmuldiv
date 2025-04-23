@@ -137,19 +137,24 @@ function calculate()
 function setResult(result)
 {
 	document.getElementById("result").innerText = result;
-	resizeResult();
-}
-
-function resizeResult()
-{
-	let result_box = document.getElementById("result");
-	result_box.style.height = "auto";
-	result_box.style.height = result_box.scrollHeight + "px";
+	resizeTextAreas();
 }
 
 function setDivisionError(reciprocal, actual)
 {
 	document.getElementById("division-error").innerText = Math.abs(actual - reciprocal) + " (" + reciprocal + " -> " + actual + ")";
+	resizeTextAreas();
+}
+
+function resizeTextAreas()
+{
+	let box = document.getElementById("result");
+	box.style.height = "auto";
+	box.style.height = box.scrollHeight + "px";
+	
+	box = document.getElementById("division-error");
+	box.style.height = "auto";
+	box.style.height = box.scrollHeight + "px";
 }
 
 function changeMode(checkbox)
