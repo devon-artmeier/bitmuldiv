@@ -92,17 +92,20 @@ static void CalculateDivision(int divisor, int steps)
 		std::cout << "-(";
 	}
 
-	float reciprocal = 1.0f / divisor;
-	int   bit_pos    = 0;
-	int   cur_step   = 0;
-	bool  printed    = false;
+	float reciprocal      = 1.0f / divisor;
+	float reciprocal_calc = reciprocal;
+	float actual          = 0.0f;
+	int   bit_pos         = 0;
+	int   cur_step        = 0;
+	bool  printed         = false;
 
-	while (reciprocal != 0 && cur_step < steps) {
-		reciprocal *= 2.0f;
+	while (reciprocal_calc != 0 && cur_step < steps) {
+		reciprocal_calc *= 2.0f;
 		bit_pos++;
 		
-		if (reciprocal >= 1.0f) {
-			reciprocal -= 1.0f;
+		if (reciprocal_calc >= 1.0f) {
+			reciprocal_calc -= 1.0f;
+			actual += 1.0f / (1 << bit_pos);
 			cur_step++;
 
 			if (printed) {
@@ -117,7 +120,8 @@ static void CalculateDivision(int divisor, int steps)
 	if (negative) {
 		std::cout << ")";
 	}
-	std::cout << std::endl;
+	std::cout << std::endl << 
+	             "Margin of error: " << std::abs(actual - reciprocal) << " " << "(" << reciprocal << " -> " << actual << ")" << std::endl;
 }
 
 int main(int argc, char* argv[])
