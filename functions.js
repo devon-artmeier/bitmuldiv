@@ -1,26 +1,5 @@
 changeMode(document.getElementById("division-mode"));
 
-setInterval(function() {
-	calculate();
-}, 100);
-
-function setResult(result)
-{
-	let result_box = document.getElementById("result");
-
-	result_box.innerText = result;
-	if (result.length > result_box.cols) {
-		result_box.rows = (result.length / result_box.cols) + 1;
-	} else {
-		result_box.rows = 1;	
-	}
-}
-
-function setDivisionError(reciprocal, actual)
-{
-	document.getElementById("division-error").innerText = Math.abs(actual - reciprocal) + " (" + reciprocal + " -> " + actual + ")";
-}
-
 function calculateMultiplication(multiplier)
 {
 	switch (multiplier) {
@@ -134,17 +113,6 @@ function calculateDivision(divisor, steps)
 	setDivisionError(reciprocal, actual);
 }
 
-function inputToInt(id)
-{
-	let value_text = document.getElementById(id).value;
-	let value = Number(value_text);
-	
-	if (value_text.length == 0 || Math.abs(value - Math.floor(value)) > 0) {
-		value = NaN;
-	}
-	return value;
-}
-
 function calculate()
 {
 	let value = inputToInt("value");
@@ -166,6 +134,24 @@ function calculate()
 	}
 }
 
+function setResult(result)
+{
+	document.getElementById("result").innerText = result;
+	resizeResult();
+}
+
+function resizeResult()
+{
+	let result_box = document.getElementById("result");
+	result_box.style.height = "auto";
+	result_box.style.height = result_box.scrollHeight + "px";
+}
+
+function setDivisionError(reciprocal, actual)
+{
+	document.getElementById("division-error").innerText = Math.abs(actual - reciprocal) + " (" + reciprocal + " -> " + actual + ")";
+}
+
 function changeMode(checkbox)
 {
 	if (checkbox.checked) {
@@ -179,4 +165,15 @@ function changeMode(checkbox)
 	}
 
 	calculate();
+}
+
+function inputToInt(id)
+{
+	let value_text = document.getElementById(id).value;
+	let value = Number(value_text);
+	
+	if (value_text.length == 0 || Math.abs(value - Math.floor(value)) > 0) {
+		value = NaN;
+	}
+	return value;
 }
