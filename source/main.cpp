@@ -68,7 +68,7 @@ static void CalculateMultiplication(int multiplier)
 	std::cout << std::endl;
 }
 
-static void CalculateDivision(int divisor, int steps)
+static void CalculateDivision(int divisor, const int steps)
 {
 	if (divisor == 0) {
 		throw std::runtime_error("Cannot divide by 0.");
@@ -156,11 +156,11 @@ int main(int argc, char* argv[])
 					division_steps = std::stoi(argv[i], nullptr, 10);
 					got_division_steps = true;
 				} catch (...) {
-					throw std::runtime_error(("Invalid Max division step count \"" + (std::string)argv[i] + "\".").c_str());
+					throw std::runtime_error(("Invalid max division step count \"" + (std::string)argv[i] + "\".").c_str());
 				}
 
-				if (division_steps == 0) {
-					throw std::runtime_error("Max division step count cannot be 0.");
+				if (division_steps <= 0) {
+					throw std::runtime_error(("Invalid max division step count \"" + (std::string)argv[i] + "\".").c_str());
 				}
 				continue;
 			}
