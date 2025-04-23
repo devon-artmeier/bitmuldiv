@@ -1,5 +1,7 @@
 # Multiplication/Division Bitshift Calculator
 
+[![Build Status](https://github.com/devon-artmeier/bitshift_mul_div/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/devon-artmeier/bitshift_mul_div/actions/workflows/cmake-multi-platform.yml)
+
 This is a tool to calculate multiplications and divisions using only bitshifts.
 
 ## Usage
