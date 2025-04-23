@@ -10,3 +10,11 @@ This is a tool to calculate multiplications and divisions using only bitshifts.
                <-d>         - Set to division mode
                <-s [steps]> - Max division step count (default = 3)
                [value]      - Multiplier or divisor (integers only)
+
+## What About Fractions?
+
+Because this tool only deals with integers, if you want to include fractional multiplications and divisions, you should split them into separate calculations.
+
+For example, if you want to multiply by 1.5, then you should do a multiplication by 3 and then a division by 2. This is because 1.5 = 3/2.
+
+If you want to divide by 1.5, then you do a multiplication by 2 and then a division by 3. This is because a division is the same as a multiplication of the reciprocal of the value you want to divide by (in this case (n / (3/2)) -> (n * (2/3))).
