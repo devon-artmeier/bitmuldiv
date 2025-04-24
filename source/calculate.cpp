@@ -23,7 +23,7 @@ static void PrintMarginOfError(const double original, const double actual)
 	double error               = actual_reciprocal - original_reciprocal;
 
 	std::cout << std::endl << 
-	             "Margin of error: " << error << " (" << GetFraction(error) << ")" << std::endl << "                 " <<
+	             "Margin of error: " << error << " (" << GetFraction(1.0 / error) << ")" << std::endl << "                 " <<
 	             original_reciprocal << " (" << GetFraction(original) << ") -> " <<
 	             actual_reciprocal << " (" << GetFraction(actual) << ")" << std::endl;
 }
