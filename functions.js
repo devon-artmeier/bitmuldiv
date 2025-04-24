@@ -151,8 +151,9 @@ function setDivisionError(original, actual)
 		let actual_reciprocal   = 1.0 / actual;
 		let error               = actual_reciprocal - original_reciprocal;
 
-		document.getElementById("division-error").value = error + " (" + getFraction(error) + ")\n" + original_reciprocal + " (" + getFraction(original) + ") -> " +
-		                                                      actual_reciprocal + " (" + getFraction(actual) + ")";
+		document.getElementById("division-error").value = error + " (" + getFraction(1.0 / error) + ")\n" +
+		                                                  original_reciprocal + " (" + getFraction(original) + ") -> " +
+		                                                  actual_reciprocal + " (" + getFraction(actual) + ")";
 	}
 
 	resizeTextAreas();
