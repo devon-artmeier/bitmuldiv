@@ -16,12 +16,15 @@
 
 #include "shared.hpp"
 
-static void PrintMarginOfError(const double reciprocal, const double actual)
+static void PrintMarginOfError(const double original, const double actual)
 {
+	double original_reciprocal = 1.0 / original;
+	double actual_reciprocal   = 1.0 / actual;
+
 	std::cout << std::endl << 
-	             "Margin of error: " << std::abs(actual - reciprocal) <<
-	             " (" << reciprocal << " (" << GetFraction(reciprocal) << ") -> " <<
-	             actual << " (" << GetFraction(actual) << "))" << std::endl;
+	             "Margin of error: " << std::abs(actual_reciprocal - original_reciprocal) <<
+	             " (" << original_reciprocal << " (" << GetFraction(original) << ") -> " <<
+	             actual_reciprocal << " (" << GetFraction(actual) << "))" << std::endl;
 }
 
 void CalculateMultiplication(int multiplier)
@@ -133,5 +136,5 @@ void CalculateDivision(int divisor, const int steps)
 		std::cout << ")";
 	}
 
-	PrintMarginOfError(reciprocal, actual);
+	PrintMarginOfError(divisor * (negative ? -1 : 1), (1.0 / actual) * (negative ? -1 : 1));
 }
