@@ -6,11 +6,9 @@ function calculateMultiplication(multiplier)
 		case 0:
 			setResult("0");
 			return;
-
 		case 1:
 			setResult("n");
 			return;
-			
 		case -1:
 			setResult("-n");
 			return;
@@ -61,12 +59,10 @@ function calculateDivision(divisor, steps)
 			setResult("Cannot divide by 0.");
 			setDivisionError(divisor, divisor);
 			return;
-
 		case 1:
 			setResult("n");
 			setDivisionError(divisor, divisor);
 			return;
-			
 		case -1:
 			setResult("-n");
 			setDivisionError(divisor, divisor);
@@ -215,13 +211,18 @@ function getDecimal(value)
 	if (decimal == 0) {
 		return (negative ? "-" : "") + integer;
 	}
-	return (negative ? "-" : "") + integer + "." + Math.floor(decimal * Math.pow(10, 16));
+	return (negative ? "-" : "") + integer + "." + Math.floor(decimal * 1000000000000000);
 }
 
 function getFraction(value)
 {
-	if (value == 0) {
-		return "0";
+	switch (divisor) {
+		case 0:
+			return "0";
+		case 1:
+			return "1";
+		case -1:
+			return "-1";
 	}
 	return (value < 0 ? "-" : "") + "1/" + getDecimal(Math.abs(value));
 }
