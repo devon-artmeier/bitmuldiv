@@ -58,17 +58,17 @@ function calculateDivision(divisor, steps)
 	switch (divisor) {
 		case 0:
 			setResult("Cannot divide by 0.");
-			setDivisionError(0, 0);
+			setDivisionError(divisor, divisor);
 			return;
 
 		case 1:
 			setResult("n");
-			setDivisionError(0, 0);
+			setDivisionError(divisor, divisor);
 			return;
 			
 		case -1:
 			setResult("-n");
-			setDivisionError(0, 0);
+			setDivisionError(divisor, divisor);
 			return;
 	}
 
@@ -146,7 +146,7 @@ function getFraction(value)
 	let precision            = 10000000000000;
 	let reciprocal           = 1 / value;
 	let reciprocal_decimal   = reciprocal - Math.floor(reciprocal);
-	let reciprocal_precision = 0.000000000000015;
+	let reciprocal_precision = 0.00000000000015;
 
 	if (integral != 0) {
 		if (negative) {
