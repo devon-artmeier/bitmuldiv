@@ -151,7 +151,15 @@ function setDivisionError(original, actual)
 		let actual_reciprocal   = 1.0 / actual;
 		let error               = actual_reciprocal - original_reciprocal;
 
-		document.getElementById("division-error").value = error + " (" + getFraction(1.0 / error) + ")\n" +
+		let error_text = error + " (";
+		
+		if (error == 0) {
+			error_text += "0";
+		} else {
+			error_text += getFraction(1.0 / error);
+		}
+
+		document.getElementById("division-error").value = error_text + ")\n" +
 		                                                  original_reciprocal + " (" + getFraction(original) + ") -> " +
 		                                                  actual_reciprocal + " (" + getFraction(actual) + ")";
 	}
