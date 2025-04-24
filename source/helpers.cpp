@@ -43,7 +43,7 @@ std::string GetFraction(double value)
 {
 	std::stringstream fraction;
 
-	fraction.precision(13);
+	fraction.precision(16);
 	fraction << (value < 0 ? "-" : "") << "1/" << std::abs(value);
 
 	return fraction.str();
