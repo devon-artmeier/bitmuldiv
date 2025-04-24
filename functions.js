@@ -213,7 +213,7 @@ function getDecimal(value)
 	if (decimal == 0) {
 		return (negative ? "-" : "") + integer;
 	}
-	return (negative ? "-" : "") + integer + "." + new Array(precision - Math.floor(Math.log10(decimal))).join('0') + decimal;
+	return (negative ? "-" : "") + integer + "." + new Array(precision - Math.floor(Math.log10(decimal))).join('0') + decimal.toString().replace(/0+$/, "");;
 }
 
 function getFraction(value)
