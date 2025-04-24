@@ -176,7 +176,7 @@ function changeMode(checkbox)
 		document.getElementById("division-step-block").style = "";
 		document.getElementById("division-error-block").style = "";
 	} else {
-		document.getElementById("value-header").value = "Multiplier"
+		document.getElementById("value-header").innerText = "Multiplier"
 		document.getElementById("division-step-block").style.display = "none";
 		document.getElementById("division-error-block").style.display = "none";
 	}
