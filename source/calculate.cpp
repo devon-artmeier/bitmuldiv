@@ -20,11 +20,12 @@ static void PrintMarginOfError(const double original, const double actual)
 {
 	double original_reciprocal = 1.0 / original;
 	double actual_reciprocal   = 1.0 / actual;
+	double error               = actual_reciprocal - original_reciprocal;
 
 	std::cout << std::endl << 
-	             "Margin of error: " << std::abs(actual_reciprocal - original_reciprocal) <<
-	             " (" << original_reciprocal << " (" << GetFraction(original) << ") -> " <<
-	             actual_reciprocal << " (" << GetFraction(actual) << "))" << std::endl;
+	             "Margin of error: " << error << " (" << GetFraction(error) << ")" << std::endl << "                 " <<
+	             original_reciprocal << " (" << GetFraction(original) << ") -> " <<
+	             actual_reciprocal << " (" << GetFraction(actual) << ")" << std::endl;
 }
 
 void CalculateMultiplication(int multiplier)
