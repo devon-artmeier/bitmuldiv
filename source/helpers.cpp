@@ -39,6 +39,13 @@ bool CheckArgument(const int argc, char* argv[], int& index, const std::string& 
 	return false;
 }
 
+std::string RemoveTrailingChar(const std::string& str, const char remove)
+{
+	std::string str_out = str;
+	str_out.erase(str_out.find_last_not_of(remove) + 1, std::string::npos);
+	return str_out;
+}
+
 std::string GetDecimal(double value)
 {
 	int precision = 15;
@@ -52,7 +59,8 @@ std::string GetDecimal(double value)
 	if (decimal == 0) {
 		return (negative ? "-" : "") + std::to_string(integer);
 	}
-	return (negative ? "-" : "") + std::to_string(integer) + "." + std::string(precision - std::floor(std::log10(decimal)) - 1, '0') + std::to_string(decimal);
+	return (negative ? "-" : "") + std::to_string(integer) + "." +
+	       std::string(precision - std::floor(std::log10(decimal)) - 1, '0') + RemoveTrailingChar(std::to_string(decimal), '0');
 }
 
 std::string GetFraction(double value)
