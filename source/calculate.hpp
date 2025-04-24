@@ -14,22 +14,10 @@
 	PERFORMANCE OF THIS SOFTWARE.
 */
 
-#ifndef SHARED_HPP
-#define SHARED_HPP
+#ifndef CALCULATE_HPP
+#define CALCULATE_HPP
 
-#include <algorithm>
-#include <bitset>
-#include <cstring>
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <vector>
-#include <unordered_map>
+extern void CalculateMultiplication(int multiplier);
+extern void CalculateDivision      (int divisor, const int steps);
 
-#include "calculate.hpp"
-#include "helpers.hpp"
-
-#endif // SHARED_HPP
+#endif // CALCULATE_HPP

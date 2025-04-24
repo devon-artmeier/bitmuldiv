@@ -38,3 +38,63 @@ bool CheckArgument(const int argc, char* argv[], int& index, const std::string& 
 	}
 	return false;
 }
+
+long long GetGcd(const long long a, const long long b)
+{
+	if (a == 0) {
+		return b;
+	} else if (b == 0) {
+		return a;
+	}
+
+	if (a < b) {
+		return GetGcd(a, b % a);
+	}
+	return GetGcd(b, a % b);
+}
+
+std::string GetFraction(double value)
+{
+	std::stringstream fraction;
+
+	bool negative = value < 0;
+	value = std::abs(value);
+
+	long long integral             = static_cast<long long>(value);
+	double    decimal              = value - integral;
+	long long precision            = 10000000000000;
+	double    reciprocal           = 1.0 / value;
+	double    reciprocal_decimal   = reciprocal - static_cast<long long>(reciprocal);
+	double    reciprocal_precision = 0.00000000000015;
+
+	if (integral != 0) {
+		if (negative) {
+			fraction << "-";
+		}
+
+		fraction << integral;
+		if (decimal != 0) {
+			fraction << negative ? " - " : " + ";
+		}
+	}
+
+	long long gcd         = GetGcd(static_cast<long long>(decimal * precision), precision);
+	long long numerator   = static_cast<long long>(decimal * precision) / gcd;
+	long long denominator = precision / gcd;
+
+	if (reciprocal_decimal <= reciprocal_precision || reciprocal_decimal >= (1 - reciprocal_precision)) {
+		numerator   = 1;
+		denominator = std::round(reciprocal);
+	}
+
+	if (decimal != 0) {
+		if (negative) {
+			fraction << "-";
+		}
+		fraction << std::to_string(numerator) + "/" + std::to_string(denominator);
+	} else if (integral == 0) {
+		fraction << "0";
+	}
+
+	return fraction.str();
+}

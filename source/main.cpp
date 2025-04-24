@@ -16,114 +16,6 @@
 
 #include "shared.hpp"
 
-static void CalculateMultiplication(int multiplier)
-{
-	std::cout << "result = ";
-
-	switch (multiplier) {
-		case 0:
-			std::cout << "0" << std::endl;
-			return;
-
-		case 1:
-			std::cout << "n" << std::endl;
-			return;
-
-		case -1:
-			std::cout << "-n" << std::endl;
-			return;
-	}
-
-	bool negative = multiplier < 0;
-	if (negative) {
-		multiplier = -multiplier;
-		std::cout << "-(";
-	}
-
-	int  bit_pos = 0;
-	bool printed = false;
-
-	while (multiplier != 0) {
-		if ((multiplier & 1) == 1) {
-			if (printed) {
-				std::cout << " + ";
-			}
-
-			if (bit_pos == 0) {
-				std::cout << "n";
-			} else {
-				std::cout << "(n << " << bit_pos << ")";
-			}
-
-			printed = true;
-		}
-
-		multiplier /= 2;
-		bit_pos++;
-	}
-
-	if (negative) {
-		std::cout << ")";
-	}
-	std::cout << std::endl;
-}
-
-static void CalculateDivision(int divisor, const int steps)
-{
-	if (divisor == 0) {
-		throw std::runtime_error("Cannot divide by 0.");
-	}
-
-	std::cout << "result = ";
-
-	switch (divisor) {
-		case 1:
-			std::cout << "n" << std::endl;
-			return;
-
-		case -1:
-			std::cout << "-n" << std::endl;
-			return;
-	}
-
-	bool negative = divisor < 0;
-	if (negative) {
-		divisor = -divisor;
-		std::cout << "-(";
-	}
-
-	float reciprocal      = 1.0f / divisor;
-	float reciprocal_calc = reciprocal;
-	float actual          = 0.0f;
-	int   bit_pos         = 0;
-	int   cur_step        = 0;
-	bool  printed         = false;
-
-	while (reciprocal_calc != 0 && cur_step < steps) {
-		reciprocal_calc *= 2.0f;
-		bit_pos++;
-		
-		if (reciprocal_calc >= 1.0f) {
-			reciprocal_calc -= 1.0f;
-			actual += 1.0f / (1 << bit_pos);
-			cur_step++;
-
-			if (printed) {
-				std::cout << " + ";
-			}
-
-			std::cout << "(n >> " << bit_pos << ")";
-			printed = true;
-		}
-	}
-
-	if (negative) {
-		std::cout << ")";
-	}
-	std::cout << std::endl << 
-	             "Margin of error: " << std::abs(actual - reciprocal) << " " << "(" << reciprocal << " -> " << actual << ")" << std::endl;
-}
-
 int main(int argc, char* argv[])
 {
 	if (argc < 2) {
@@ -135,6 +27,8 @@ int main(int argc, char* argv[])
 	}
 
 	try {
+		std::cout << std::setprecision(13);
+
 		bool division_mode      = false;
 		int  value              = 0;
 		bool got_value          = false;
