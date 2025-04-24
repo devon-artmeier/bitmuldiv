@@ -209,10 +209,6 @@ function getDecimal(value)
 	let negative = value < 0;
 	value = Math.abs(value);
 
-	if (negative) {
-		result += "-";
-	}
-
 	let integral = Math.floor(value);
 	let decimal  = value - integral;
 
