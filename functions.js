@@ -209,13 +209,13 @@ function getDecimal(value)
 	let negative = value < 0;
 	value = Math.abs(value);
 
-	let integral = Math.floor(value);
-	let decimal  = value - integral;
+	let integer = Math.floor(value);
+	let decimal = value - integer;
 
 	if (decimal == 0) {
-		return (negative ? "-" : "") + integral;
+		return (negative ? "-" : "") + integer;
 	}
-	return (negative ? "-" : "") + integral + "." + Math.floor(decimal * Math.pow(10, 16));
+	return (negative ? "-" : "") + integer + "." + Math.floor(decimal * Math.pow(10, 16));
 }
 
 function getFraction(value)
