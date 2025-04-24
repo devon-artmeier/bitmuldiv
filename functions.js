@@ -136,6 +136,8 @@ function calculate()
 
 function getFraction(value)
 {
+	let fraction = "";
+
 	let negative = value < 0;
 	value = Math.abs(value);
 
@@ -145,8 +147,6 @@ function getFraction(value)
 	let reciprocal           = 1 / value;
 	let reciprocal_decimal   = reciprocal - Math.floor(reciprocal);
 	let reciprocal_precision = 0.000000000000015;
-
-	let fraction = "";
 
 	if (integral != 0) {
 		if (negative) {
