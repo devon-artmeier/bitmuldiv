@@ -136,8 +136,6 @@ function calculate()
 
 function getFraction(value)
 {
-	alert(value);
-
 	let negative = value < 0;
 	value = Math.abs(value);
 
