@@ -89,7 +89,7 @@ function calculateDivision(divisor, steps)
 	let cur_step        = 0;
 	let printed         = false;
 
-	while (reciprocal_calc != 0 && cur_step < steps && bit_pos < 31) {
+	while (reciprocal_calc != 0 && cur_step < steps) {
 		reciprocal_calc *= 2;
 		bit_pos++;
 
@@ -151,7 +151,7 @@ function setDivisionError(original, actual)
 		let actual_reciprocal   = 1.0 / actual;
 		let error               = actual_reciprocal - original_reciprocal;
 
-		let error_text = error + " (";
+		let error_text = getDecimal(error) + " (";
 		
 		if (error == 0) {
 			error_text += "0";
@@ -160,8 +160,8 @@ function setDivisionError(original, actual)
 		}
 
 		document.getElementById("division-error").value = error_text + ")\n" +
-		                                                  original_reciprocal + " (" + getFraction(original) + ") -> " +
-		                                                  actual_reciprocal + " (" + getFraction(actual) + ")";
+		                                                  getDecimal(original_reciprocal) + " (" + getFraction(original) + ") -> " +
+		                                                  getDecimal(actual_reciprocal) + " (" + getFraction(actual) + ")";
 	}
 
 	resizeTextAreas();
@@ -204,10 +204,28 @@ function inputToInt(id)
 	return value;
 }
 
+function getDecimal(value)
+{
+	let negative = value < 0;
+	value = Math.abs(value);
+
+	if (negative) {
+		result += "-";
+	}
+
+	let integral = Math.floor(value);
+	let decimal  = value - integral;
+
+	if (decimal == 0) {
+		return (negative ? "-" : "") + integral;
+	}
+	return (negative ? "-" : "") + integral + "." + Math.floor(decimal * Math.pow(10, 16));
+}
+
 function getFraction(value)
 {
 	if (value == 0) {
 		return "0";
 	}
-	return (value < 0 ? "-" : "") + "1/" + Math.abs(value);
+	return (value < 0 ? "-" : "") + "1/" + getDecimal(Math.abs(value));
 }
