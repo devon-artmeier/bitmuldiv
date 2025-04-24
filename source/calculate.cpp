@@ -23,7 +23,7 @@ static void PrintMarginOfError(const double original, const double actual)
 	double error               = actual_reciprocal - original_reciprocal;
 
 	std::cout << std::endl <<
-		"Margin of error: " << error << " (";
+		"Margin of error: " << GetDecimal(error) << " (";
 	
 	if (error == 0) {
 		std::cout << "0";
@@ -32,8 +32,8 @@ static void PrintMarginOfError(const double original, const double actual)
 	}
 
 	std::cout << ")" << std::endl << "                 " <<
-	             original_reciprocal << " (" << GetFraction(original) << ") -> " <<
-	             actual_reciprocal << " (" << GetFraction(actual) << ")" << std::endl;
+	             GetDecimal(original_reciprocal) << " (" << GetFraction(original) << ") -> " <<
+	             GetDecimal(actual_reciprocal) << " (" << GetFraction(actual) << ")" << std::endl;
 }
 
 void CalculateMultiplication(int multiplier)
@@ -44,11 +44,9 @@ void CalculateMultiplication(int multiplier)
 		case 0:
 			std::cout << "0" << std::endl;
 			return;
-
 		case 1:
 			std::cout << "n" << std::endl;
 			return;
-
 		case -1:
 			std::cout << "-n" << std::endl;
 			return;
@@ -102,7 +100,6 @@ void CalculateDivision(int divisor, const int steps)
 			std::cout << "n";
 			PrintMarginOfError(divisor, divisor);
 			return;
-
 		case -1:
 			std::cout << "-n";
 			PrintMarginOfError(divisor, divisor);

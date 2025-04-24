@@ -19,6 +19,7 @@
 
 extern std::string StringToLower(const std::string& str);
 extern bool        CheckArgument(const int argc, char* argv[], int& index, const std::string& option, const bool ignore_case = true);
+extern std::string GetDecimal   (double value);
 extern std::string GetFraction  (double value);
 
 #endif // HELPERS_HPP

@@ -39,12 +39,30 @@ bool CheckArgument(const int argc, char* argv[], int& index, const std::string& 
 	return false;
 }
 
+std::string GetDecimal(double value)
+{
+	int precision = 15;
+
+	bool negative = value < 0;
+	value = std::abs(value);
+
+	long long integer = static_cast<long long>(std::floor(value));
+	long long decimal = static_cast<long long>((value - integer) * std::pow(10, precision));
+
+	if (decimal == 0) {
+		return (negative ? "-" : "") + std::to_string(integer);
+	}
+	return (negative ? "-" : "") + std::to_string(integer) + "." + std::string(precision - std::floor(std::log10(decimal)) - 1, '0') + std::to_string(decimal);
+}
+
 std::string GetFraction(double value)
 {
-	std::stringstream fraction;
-
-	fraction.precision(16);
-	fraction << (value < 0 ? "-" : "") << "1/" << std::abs(value);
-
-	return fraction.str();
+	if (value == 0) {
+		return "0";
+	} else if (value == 1) {
+		return "1";
+	} else if (value == -1) {
+		return "-1";
+	}
+	return (std::string)(value < 0 ? "-" : "") + "1/" + GetDecimal(std::abs(value));
 }

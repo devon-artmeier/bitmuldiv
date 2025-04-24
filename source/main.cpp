@@ -27,8 +27,6 @@ int main(int argc, char* argv[])
 	}
 
 	try {
-		std::cout << std::setprecision(16);
-
 		bool division_mode      = false;
 		int  value              = 0;
 		bool got_value          = false;
