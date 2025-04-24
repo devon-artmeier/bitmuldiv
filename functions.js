@@ -19,8 +19,9 @@ function calculateMultiplication(multiplier)
 	let result = "";
 
 	let negative = multiplier < 0;
+	multiplier = Math.abs(multiplier);
+
 	if (negative) {
-		multiplier = -multiplier;
 		result += "-(";
 	}
 
@@ -75,8 +76,9 @@ function calculateDivision(divisor, steps)
 	let result = "";
 
 	let negative = divisor < 0;
+	divisor = Math.abs(divisor);
+
 	if (negative) {
-		divisor = -divisor;
 		result += "-(";
 	}
 
@@ -110,7 +112,7 @@ function calculateDivision(divisor, steps)
 	}
 
 	setResult(result);
-	setDivisionError(reciprocal * (negative ? -1 : 1), actual * (negative ? -1 : 1));
+	setDivisionError(divisor * (negative ? -1 : 1), (1.0 / actual) * (negative ? -1 : 1));
 }
 
 function calculate()
@@ -136,62 +138,7 @@ function calculate()
 
 function getFraction(value)
 {
-	let fraction = "";
-
-	let negative = value < 0;
-	value = Math.abs(value);
-
-	let integral             = Math.floor(value);
-	let decimal              = value - integral;
-	let precision            = 10000000000000;
-	let reciprocal           = 1 / value;
-	let reciprocal_decimal   = reciprocal - Math.floor(reciprocal);
-	let reciprocal_precision = 0.00000000000015;
-
-	if (integral != 0) {
-		if (negative) {
-			fraction += "-";
-		}
-
-		fraction += integral;
-		if (decimal != 0) {
-			fraction += negative ? " - " : " + ";
-		}
-	}
-
-	let gcd         = getGcd(Math.round(decimal * precision), precision);
-	let numerator   = Math.round(decimal * precision) / gcd;
-	let denominator = precision / gcd;
-
-	if (reciprocal_decimal <= reciprocal_precision || reciprocal_decimal >= (1 - reciprocal_precision)) {
-		numerator   = 1;
-		denominator = Math.round(reciprocal);
-	}
-
-	if (decimal != 0) {
-		if (negative) {
-			fraction += "-";
-		}
-		fraction += numerator + "/" + denominator;
-	} else if (integral == 0) {
-		fraction += "0";
-	}
-
-	return fraction;
-}
-
-function getGcd(a, b)
-{
-	if (a == 0) {
-		return b;
-	} else if (b == 0) {
-		return a;
-	}
-
-	if (a < b) {
-		return getGcd(a, b % a);
-	}
-	return getGcd(b, a % b);
+	return (value < 0 ? "-" : "") + "1/" + Math.abs(value);
 }
 
 function setResult(result)
@@ -200,9 +147,17 @@ function setResult(result)
 	resizeTextAreas();
 }
 
-function setDivisionError(reciprocal, actual)
+function setDivisionError(original, actual)
 {
-	document.getElementById("division-error").innerText = Math.abs(actual - reciprocal) + " (" + reciprocal + " (" + getFraction(reciprocal) + ") -> " + actual + " (" + getFraction(actual) + "))";
+	if (original == 0 || actual == 0) {
+		document.getElementById("division-error").innerText = "";
+	} else {
+		let original_reciprocal = 1.0 / original;
+		let actual_reciprocal   = 1.0 / actual;
+
+		document.getElementById("division-error").innerText = Math.abs(actual_reciprocal - original_reciprocal) + " (" + original + " (" + getFraction(original) + ") -> " + actual_reciprocal + " (" + getFraction(actual) + "))";
+	}
+
 	resizeTextAreas();
 }
 
