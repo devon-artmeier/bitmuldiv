@@ -202,21 +202,23 @@ function inputToInt(id)
 
 function getDecimal(value)
 {
+	let precision = 15;
+
 	let negative = value < 0;
 	value = Math.abs(value);
 
 	let integer = Math.floor(value);
-	let decimal = value - integer;
+	let decimal = Math.floor((value - integer) * Math.pow(10, precision));
 
 	if (decimal == 0) {
 		return (negative ? "-" : "") + integer;
 	}
-	return (negative ? "-" : "") + integer + "." + Math.floor(decimal * 1000000000000000);
+	return (negative ? "-" : "") + integer + "." + new Array(precision - Math.floor(Math.log10(decimal))).join('0') + decimal;
 }
 
 function getFraction(value)
 {
-	switch (divisor) {
+	switch (value) {
 		case 0:
 			return "0";
 		case 1:
