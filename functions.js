@@ -87,7 +87,7 @@ function calculateDivision(divisor, steps)
 	let cur_step        = 0;
 	let printed         = false;
 
-	while (reciprocal_calc != 0 && cur_step < steps) {
+	while (reciprocal_calc != 0 && cur_step < steps && bit_pos < 31) {
 		reciprocal_calc *= 2;
 		bit_pos++;
 
@@ -110,7 +110,7 @@ function calculateDivision(divisor, steps)
 	}
 
 	setResult(result);
-	setDivisionError(reciprocal, actual);
+	setDivisionError(reciprocal * (negative ? -1 : 1), actual * (negative ? -1 : 1));
 }
 
 function calculate()
@@ -134,6 +134,68 @@ function calculate()
 	}
 }
 
+function getFraction(value)
+{
+	alert(value);
+
+	let negative = value < 0;
+	value = Math.abs(value);
+
+	let integral             = Math.floor(value);
+	let decimal              = value - integral;
+	let precision            = 10000000000000;
+	let reciprocal           = 1 / value;
+	let reciprocal_decimal   = reciprocal - Math.floor(reciprocal);
+	let reciprocal_precision = 0.000000000000015;
+
+	let fraction = "";
+
+	if (integral != 0) {
+		if (negative) {
+			fraction += "-";
+		}
+
+		fraction += integral;
+		if (decimal != 0) {
+			fraction += negative ? " - " : " + ";
+		}
+	}
+
+	let gcd         = getGcd(Math.round(decimal * precision), precision);
+	let numerator   = Math.round(decimal * precision) / gcd;
+	let denominator = precision / gcd;
+
+	if (reciprocal_decimal <= reciprocal_precision || reciprocal_decimal >= (1 - reciprocal_precision)) {
+		numerator   = 1;
+		denominator = Math.round(reciprocal);
+	}
+
+	if (decimal != 0) {
+		if (negative) {
+			fraction += "-";
+		}
+		fraction += numerator + "/" + denominator;
+	} else if (integral == 0) {
+		fraction += "0";
+	}
+
+	return fraction;
+}
+
+function getGcd(a, b)
+{
+	if (a == 0) {
+		return b;
+	} else if (b == 0) {
+		return a;
+	}
+
+	if (a < b) {
+		return getGcd(a, b % a);
+	}
+	return getGcd(b, a % b);
+}
+
 function setResult(result)
 {
 	document.getElementById("result").innerText = result;
@@ -142,7 +204,7 @@ function setResult(result)
 
 function setDivisionError(reciprocal, actual)
 {
-	document.getElementById("division-error").innerText = Math.abs(actual - reciprocal) + " (" + reciprocal + " -> " + actual + ")";
+	document.getElementById("division-error").innerText = Math.abs(actual - reciprocal) + " (" + reciprocal + " (" + getFraction(reciprocal) + ") -> " + actual + " (" + getFraction(actual) + "))";
 	resizeTextAreas();
 }
 
