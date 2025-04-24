@@ -44,7 +44,6 @@ std::string GetFraction(double value)
 	std::stringstream fraction;
 
 	if ((value - static_cast<int>(value)) != 0) {
-		fraction.setf(std::ios::fixed);
 		fraction.precision(13);
 	}
 
