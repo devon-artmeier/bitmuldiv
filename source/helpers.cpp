@@ -41,6 +41,10 @@ bool CheckArgument(const int argc, char* argv[], int& index, const std::string& 
 
 std::string GetFraction(double value)
 {
-	return (std::string)(value < 0 ? "-" : "") + "1/" +
-		(std::abs(value - static_cast<int>(value)) != 0 ? std::to_string(std::abs(value)) : std::to_string(static_cast<int>(std::abs(value))));
+	std::stringstream fraction;
+	
+	fraction << std::setprecision(13);
+	fraction << (value < 0 ? "-" : "") << "1/" << std::abs(value);
+
+	return fraction.str();
 }
