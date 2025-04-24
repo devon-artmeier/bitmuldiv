@@ -136,26 +136,23 @@ function calculate()
 	}
 }
 
-function getFraction(value)
-{
-	return (value < 0 ? "-" : "") + "1/" + Math.abs(value);
-}
-
 function setResult(result)
 {
-	document.getElementById("result").innerText = result;
+	document.getElementById("result").value = result;
 	resizeTextAreas();
 }
 
 function setDivisionError(original, actual)
 {
 	if (original == 0 || actual == 0) {
-		document.getElementById("division-error").innerText = "";
+		document.getElementById("division-error").value = "";
 	} else {
 		let original_reciprocal = 1.0 / original;
 		let actual_reciprocal   = 1.0 / actual;
+		let error               = actual_reciprocal - original_reciprocal;
 
-		document.getElementById("division-error").innerText = Math.abs(actual_reciprocal - original_reciprocal) + " (" + original_reciprocal + " (" + getFraction(original) + ") -> " + actual_reciprocal + " (" + getFraction(actual) + "))";
+		document.getElementById("division-error").value = error + " (" + getFraction(error) + ")\n" + original_reciprocal + " (" + getFraction(original) + ") -> " +
+		                                                      actual_reciprocal + " (" + getFraction(actual) + ")";
 	}
 
 	resizeTextAreas();
@@ -179,7 +176,7 @@ function changeMode(checkbox)
 		document.getElementById("division-step-block").style = "";
 		document.getElementById("division-error-block").style = "";
 	} else {
-		document.getElementById("value-header").innerText = "Multiplier"
+		document.getElementById("value-header").value = "Multiplier"
 		document.getElementById("division-step-block").style.display = "none";
 		document.getElementById("division-error-block").style.display = "none";
 	}
@@ -196,4 +193,12 @@ function inputToInt(id)
 		value = NaN;
 	}
 	return value;
+}
+
+function getFraction(value)
+{
+	if (value == 0) {
+		return "0";
+	}
+	return (value < 0 ? "-" : "") + "1/" + Math.abs(value);
 }
