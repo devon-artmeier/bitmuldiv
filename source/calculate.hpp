@@ -17,7 +17,7 @@
 #ifndef CALCULATE_HPP
 #define CALCULATE_HPP
 
-extern void CalculateMultiplication(int multiplier);
-extern void CalculateDivision      (int divisor, const int steps);
+extern void CalculateMultiplication(long long multiplier);
+extern void CalculateDivision      (long long divisor, const int steps);
 
 #endif // CALCULATE_HPP

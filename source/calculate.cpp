@@ -36,7 +36,7 @@ static void PrintMarginOfError(const double original, const double actual)
 	             GetDecimal(actual_reciprocal) << " (" << GetFraction(actual) << ")" << std::endl;
 }
 
-void CalculateMultiplication(int multiplier)
+void CalculateMultiplication(long long multiplier)
 {
 	std::cout << "result = ";
 
@@ -87,7 +87,7 @@ void CalculateMultiplication(int multiplier)
 	std::cout << std::endl;
 }
 
-void CalculateDivision(int divisor, const int steps)
+void CalculateDivision(long long divisor, const int steps)
 {
 	if (divisor == 0) {
 		throw std::runtime_error("Cannot divide by 0.");
@@ -120,7 +120,7 @@ void CalculateDivision(int divisor, const int steps)
 	int    cur_step        = 0;
 	bool   printed         = false;
 
-	while (reciprocal_calc != 0 && cur_step < steps && bit_pos < 31) {
+	while (reciprocal_calc != 0 && cur_step < steps) {
 		reciprocal_calc *= 2.0;
 		bit_pos++;
 		

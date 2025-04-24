@@ -27,11 +27,11 @@ int main(int argc, char* argv[])
 	}
 
 	try {
-		bool division_mode      = false;
-		int  value              = 0;
-		bool got_value          = false;
-		int  division_steps     = 3;
-		bool got_division_steps = false;
+		bool      division_mode      = false;
+		long long value              = 0;
+		bool      got_value          = false;
+		int       division_steps     = 3;
+		bool      got_division_steps = false;
 
 		for (int i = 1; i < argc; i++) {
 			if (StringToLower(argv[i]).compare("-d") == 0) {
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 			}
 
 			try {
-				value = std::stoi(argv[i], nullptr, 10);
+				value = std::stoll(argv[i], nullptr, 10);
 				got_value = true;
 			} catch (...) {
 				throw std::runtime_error(("Invalid multiplier/divisor \"" + (std::string)argv[i] + "\".").c_str());
