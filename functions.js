@@ -24,7 +24,7 @@ function calculateMultiplication(multiplier)
 		let cur_bit         = 0;
 
 		if (mode != 0) {
-			let sub_base = (1 << Math.floor((Math.log2(multiplier_work) + 1)));
+			let sub_base = Math.pow(2, Math.floor((Math.log2(multiplier_work) + 1)));
 			if (sub_base < 0) {
 				continue;
 			}
@@ -33,7 +33,7 @@ function calculateMultiplication(multiplier)
 			multiplier_work = sub_base - multiplier_work;
 		}
 		
-		while (multiplier_work != 0 && cur_bit < 64) {
+		while (multiplier_work != 0) {
 			if ((multiplier_work % 2) == 1) {
 				steps[mode].push(cur_bit);
 			}
@@ -110,7 +110,7 @@ function calculateDivision(divisor, step_count)
 	let cur_step        = 0;
 	let steps           = [];
 
-	while (reciprocal_calc != 0 && cur_step < step_count && cur_bit < (64 - 1)) {
+	while (reciprocal_calc != 0 && cur_step < step_count) {
 		reciprocal_calc *= 2;
 		cur_bit++;
 
@@ -118,7 +118,7 @@ function calculateDivision(divisor, step_count)
 			steps.push(cur_bit);
 
 			reciprocal_calc -= 1;
-			actual += 1 / (1 << cur_bit);
+			actual += 1 / Math.pow(2, cur_bit);
 			cur_step++;
 		}
 	}
@@ -234,7 +234,7 @@ function inputToInt(id)
 	let value_text = document.getElementById(id).value;
 	let value = Number(value_text);
 	
-	if (value_text.length == 0 || Math.abs(value - Math.floor(value)) > 0 || value < -2147483647 || value > 2147483647) {
+	if (value_text.length == 0 || Math.abs(value - Math.floor(value)) > 0) {
 		value = NaN;
 	}
 	return value;
@@ -242,18 +242,29 @@ function inputToInt(id)
 
 function getDecimal(value)
 {
-	let precision = 15;
-
 	let negative = value < 0;
 	value = Math.abs(value);
 
-	let integer = Math.floor(value);
-	let decimal = Math.floor((value - integer) * Math.pow(10, precision));
+	let decimal = negative ? "-" : "";
 
-	if (decimal == 0) {
-		return (negative ? "-" : "") + integer;
+	if (Math.abs(value) < 1.0) {
+		let e = parseInt(value.toString().split('e-')[1]);
+		if (e) {
+			decimal += '0.' + (new Array(e)).join('0') + (value * Math.pow(10, e - 1)).toString().substring(2);
+		} else {
+			decimal += value.toString();
+		}
+	} else {
+		let e = parseInt(value.toString().split('+')[1]);
+		if (e > 20) {
+			e -= 20;
+			decimal += (value / Math.pow(10, e)) + (new Array(e + 1)).join('0');
+		} else {
+			decimal += value.toString();
+		}
 	}
-	return (negative ? "-" : "") + integer + "." + new Array(precision - Math.floor(Math.log10(decimal))).join('0') + decimal.toString().replace(/0+$/, "");;
+
+	return decimal;
 }
 
 function getFraction(value)
