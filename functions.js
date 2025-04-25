@@ -4,13 +4,16 @@ function calculateMultiplication(multiplier)
 {
 	switch (multiplier) {
 		case 0:
-			setMultiplicationResult("0");
+			setMultiplicationAddResult("0");
+			setMultiplicationSubResult("0");
 			return;
 		case 1:
-			setMultiplicationResult("n");
+			setMultiplicationAddResult("n");
+			setMultiplicationSubResult("n");
 			return;
 		case -1:
-			setMultiplicationResult("-n");
+			setMultiplicationAddResult("-n");
+			setMultiplicationSubResult("-n");
 			return;
 	}
 
@@ -44,40 +47,38 @@ function calculateMultiplication(multiplier)
 			steps[mode].reverse();
 		}
 	}
-	
-	let result = "";
-	let mode   = (steps[0].length <= steps[1].length) ? 0 : 1;
-	if (steps[mode].length == 0) {
-		mode ^= 1;
-	}
 
-	if (negative && steps[mode].length > 0) {
-		result += "-(";
-	}
+	for (let mode = 0; mode <= 1; mode++) {
+		let result = "";
 
-	for (let i = 0; i < steps[mode].length; i++) {
-		if (i > 0) {
-			result += (mode == 0) ? " + " : " - ";
+		if (negative && steps[mode].length > 0) {
+			result += "-(";
 		}
 
-		if (steps[mode][i] == 0) {
-			result += "n";
-		} else {
-			if (steps[mode].length > 1) {
-				result += "(";
+		for (let i = 0; i < steps[mode].length; i++) {
+			if (i > 0) {
+				result += (mode == 0) ? " + " : " - ";
 			}
-			result += "n << " + steps[mode][i];
-			if (steps[mode].length > 1) {
-				result += ")";
+
+			if (steps[mode][i] == 0) {
+				result += "n";
+			} else {
+				if (steps[mode].length > 1) {
+					result += "(";
+				}
+				result += "n << " + steps[mode][i];
+				if (steps[mode].length > 1) {
+					result += ")";
+				}
 			}
 		}
-	}
 
-	if (negative && steps[mode].length > 0) {
-		result += ")";
+		if (negative && steps[mode].length > 0) {
+			result += ")";
+		}
+		
+		(mode == 0) ? setMultiplicationAddResult(result) : setMultiplicationSubResult(result);
 	}
-
-	setMultiplicationResult(result);
 }
 
 function calculateDivision(divisor, step_count)
@@ -157,7 +158,8 @@ function calculate()
 	let value = inputToInt("value");
 
 	if (isNaN(value)) {
-		setMultiplicationResult("Invalid multiplier");
+		setMultiplicationAddResult("Invalid multiplier");
+		setMultiplicationSubResult("Invalid multiplier");
 		setDivisionResult("Invalid divisor");
 		setDivisionError(0, 0);
 	} else {
@@ -174,9 +176,15 @@ function calculate()
 	}
 }
 
-function setMultiplicationResult(result)
+function setMultiplicationAddResult(result)
 {
-	document.getElementById("muliplication-result").value = result;
+	document.getElementById("muliplication-result-add").value = result;
+	resizeTextAreas();
+}
+
+function setMultiplicationSubResult(result)
+{
+	document.getElementById("muliplication-result-sub").value = result;
 	resizeTextAreas();
 }
 
@@ -213,9 +221,14 @@ function setDivisionError(original, actual)
 
 function resizeTextAreas()
 {
-	let box = document.getElementById("muliplication-result");
+	let box = document.getElementById("muliplication-result-add");
 	box.style.height = "auto";
 	box.style.height = box.scrollHeight + "px";
+
+	box = document.getElementById("muliplication-result-sub");
+	box.style.height = "auto";
+	box.style.height = box.scrollHeight + "px";
+
 
 	box = document.getElementById("division-result");
 	box.style.height = "auto";
