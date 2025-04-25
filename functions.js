@@ -33,7 +33,7 @@ function calculateMultiplication(multiplier)
 			multiplier_work = sub_base - multiplier_work;
 		}
 		
-		while (multiplier_work != 0) {
+		while (multiplier_work != 0 && cur_bit < 64) {
 			if ((multiplier_work % 2) == 1) {
 				steps[mode].push(cur_bit);
 			}
@@ -110,7 +110,7 @@ function calculateDivision(divisor, step_count)
 	let cur_step        = 0;
 	let steps           = [];
 
-	while (reciprocal_calc != 0 && cur_step < step_count) {
+	while (reciprocal_calc != 0 && cur_step < step_count && cur_bit < (64 - 1)) {
 		reciprocal_calc *= 2;
 		cur_bit++;
 
