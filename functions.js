@@ -25,10 +25,7 @@ function calculateMultiplication(multiplier)
 
 		if (mode != 0) {
 			let sub_base = Math.pow(2, Math.floor((Math.log2(multiplier_work) + 1)));
-			if (sub_base < 0) {
-				continue;
-			}
-			
+
 			steps[mode].push(Math.log2(sub_base));
 			multiplier_work = sub_base - multiplier_work;
 		}
@@ -242,29 +239,21 @@ function inputToInt(id)
 
 function getDecimal(value)
 {
+	let precision = 15;
+
 	let negative = value < 0;
 	value = Math.abs(value);
 
-	let decimal = negative ? "-" : "";
+	let integer = Math.floor(value);
+	let decimal = Math.floor((value - integer) * Math.pow(10, precision));
 
-	if (Math.abs(value) < 1.0) {
-		let e = parseInt(value.toString().split('e-')[1]);
-		if (e) {
-			decimal += '0.' + (new Array(e)).join('0') + (value * Math.pow(10, e - 1)).toString().substring(2);
-		} else {
-			decimal += value.toString();
-		}
-	} else {
-		let e = parseInt(value.toString().split('+')[1]);
-		if (e > 20) {
-			e -= 20;
-			decimal += (value / Math.pow(10, e)) + (new Array(e + 1)).join('0');
-		} else {
-			decimal += value.toString();
-		}
+	let str = integer;
+
+	if (decimal != 0) {
+		str += "." + new Array(precision - Math.floor(Math.log10(decimal))).join('0') + decimal.toString().replace(/0+$/, "");
 	}
 
-	return decimal;
+	return (negative ? "-" : "") + str;
 }
 
 function getFraction(value)
