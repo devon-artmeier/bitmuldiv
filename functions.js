@@ -1,140 +1,191 @@
-changeMode(document.getElementById("division-mode"));
+calculate();
 
 function calculateMultiplication(multiplier)
 {
 	switch (multiplier) {
 		case 0:
-			setResult("0");
+			setMultiplicationResult("0");
 			return;
 		case 1:
-			setResult("n");
+			setMultiplicationResult("n");
 			return;
 		case -1:
-			setResult("-n");
+			setMultiplicationResult("-n");
 			return;
 	}
-
-	let result = "";
 
 	let negative = multiplier < 0;
 	multiplier = Math.abs(multiplier);
 
-	if (negative) {
+	let steps  = [[], []];
+
+	for (let mode = 0; mode <= 1; mode++) {
+		let multiplier_work = multiplier;
+		let cur_bit         = 0;
+
+		if (mode != 0) {
+			let sub_base = (1 << Math.floor((Math.log2(multiplier_work) + 1)));
+			if (sub_base < 0) {
+				continue;
+			}
+			
+			steps[mode].push(Math.log2(sub_base));
+			multiplier_work = sub_base - multiplier_work;
+		}
+		
+		while (multiplier_work != 0) {
+			if ((multiplier_work % 2) == 1) {
+				steps[mode].push(cur_bit);
+			}
+
+			multiplier_work = Math.floor(multiplier_work / 2);
+			cur_bit++;
+		}
+
+		steps[mode].sort((a, b) => a - b);
+		if (mode != 0) {
+			steps[mode].reverse();
+		}
+	}
+	
+	let result = "";
+	let mode   = (steps[0].length <= steps[1].length) ? 0 : 1;
+	if (steps[mode].length == 0) {
+		mode ^= 1;
+	}
+
+	if (negative && steps[mode].length > 0) {
 		result += "-(";
 	}
 
-	let bit_pos = 0;
-	let printed = false;
-
-	while (multiplier != 0) {
-		if ((multiplier % 2) == 1) {
-			if (printed) {
-				result += " + ";
-			}
-
-			if (bit_pos == 0) {
-				result += "n";
-			} else {
-				result += "(n << " + bit_pos + ")";
-			}
-
-			printed = true;
+	for (let i = 0; i < steps[mode].length; i++) {
+		if (i > 0) {
+			result += (mode == 0) ? " + " : " - ";
 		}
 
-		multiplier = Math.floor(multiplier / 2);
-		bit_pos++;
+		if (steps[mode][i] == 0) {
+			result += "n";
+		} else {
+			if (steps[mode].length > 1) {
+				result += "(";
+			}
+			result += "n << " + steps[mode][i];
+			if (steps[mode].length > 1) {
+				result += ")";
+			}
+		}
 	}
 
-	if (negative) {
+	if (negative && steps[mode].length > 0) {
 		result += ")";
 	}
 
-	setResult(result);
+	setMultiplicationResult(result);
 }
 
-function calculateDivision(divisor, steps)
+function calculateDivision(divisor, step_count)
 {
 	switch (divisor) {
 		case 0:
-			setResult("Cannot divide by 0.");
+			setDivisionResult("Cannot divide by 0.");
 			setDivisionError(divisor, divisor);
 			return;
 		case 1:
-			setResult("n");
+			setDivisionResult("n");
 			setDivisionError(divisor, divisor);
 			return;
 		case -1:
-			setResult("-n");
+			setDivisionResult("-n");
 			setDivisionError(divisor, divisor);
 			return;
 	}
-
-	let result = "";
 
 	let negative = divisor < 0;
 	divisor = Math.abs(divisor);
 
-	if (negative) {
-		result += "-(";
-	}
-
 	let reciprocal      = 1 / divisor;
 	let reciprocal_calc = reciprocal;
 	let actual          = 0;
-	let bit_pos         = 0;
+	let cur_bit         = 0;
 	let cur_step        = 0;
-	let printed         = false;
+	let steps           = [];
 
-	while (reciprocal_calc != 0 && cur_step < steps) {
+	while (reciprocal_calc != 0 && cur_step < step_count) {
 		reciprocal_calc *= 2;
-		bit_pos++;
+		cur_bit++;
 
 		if (reciprocal_calc >= 1) {
+			steps.push(cur_bit);
+
 			reciprocal_calc -= 1;
-			actual += 1 / (1 << bit_pos);
+			actual += 1 / (1 << cur_bit);
 			cur_step++;
-
-			if (printed) {
-				result += " + ";
-			}
-
-			result += "(n >> " + bit_pos + ")";
-			printed = true;
 		}
 	}
 
-	if (negative) {
+	let result = "";
+
+	if (negative && steps.length > 0) {
+		result += "-(";
+	}
+
+	for (let i = 0; i < steps.length; i++) {
+		if (i > 0) {
+			result += " + ";
+		}
+
+		if (steps[i] == 0) {
+			result += "n";
+		} else {
+			if (steps.length > 1) {
+				result += "(";
+			}
+			result += "n >> " + steps[i];
+			if (steps.length > 1) {
+				result += ")";
+			}
+		}
+	}
+
+	if (negative && steps.length > 0) {
 		result += ")";
 	}
 
-	setResult(result);
+	setDivisionResult(result);
 	setDivisionError(divisor * (negative ? -1 : 1), (1.0 / actual) * (negative ? -1 : 1));
 }
 
 function calculate()
 {
 	let value = inputToInt("value");
-	let division_mode = document.getElementById("division-mode").checked;
 
 	if (isNaN(value)) {
-		setResult("Invalid " + (division_mode ? "divisor" : "multiplier"));
+		setMultiplicationResult("Invalid multiplier");
+		setDivisionResult("Invalid divisor");
+		setDivisionError(0, 0);
 	} else {
-		if (!division_mode) {
-			calculateMultiplication(value);
+		calculateMultiplication(value);
+
+		let division_steps = inputToInt("division-steps")
+		if (isNaN(division_steps) || division_steps <= 0) {
+			setDivisionResult("Invalid max division step count");
+			setDivisionError(0, 0);
+
 		} else {
-			let steps = inputToInt("division-steps")
-			if (isNaN(steps) || steps <= 0) {
-				setResult("Invalid max division step count");
-			} else {
-				calculateDivision(value, steps);
-			}
+			calculateDivision(value, division_steps);
 		}
 	}
 }
 
-function setResult(result)
+function setMultiplicationResult(result)
 {
-	document.getElementById("result").value = result;
+	document.getElementById("muliplication-result").value = result;
+	resizeTextAreas();
+}
+
+function setDivisionResult(result)
+{
+	document.getElementById("division-result").value = result;
 	resizeTextAreas();
 }
 
@@ -165,7 +216,11 @@ function setDivisionError(original, actual)
 
 function resizeTextAreas()
 {
-	let box = document.getElementById("result");
+	let box = document.getElementById("muliplication-result");
+	box.style.height = "auto";
+	box.style.height = box.scrollHeight + "px";
+
+	box = document.getElementById("division-result");
 	box.style.height = "auto";
 	box.style.height = box.scrollHeight + "px";
 	
@@ -174,27 +229,12 @@ function resizeTextAreas()
 	box.style.height = box.scrollHeight + "px";
 }
 
-function changeMode(checkbox)
-{
-	if (checkbox.checked) {
-		document.getElementById("value-header").innerText = "Divisor"
-		document.getElementById("division-step-block").style = "";
-		document.getElementById("division-error-block").style = "";
-	} else {
-		document.getElementById("value-header").innerText = "Multiplier"
-		document.getElementById("division-step-block").style.display = "none";
-		document.getElementById("division-error-block").style.display = "none";
-	}
-
-	calculate();
-}
-
 function inputToInt(id)
 {
 	let value_text = document.getElementById(id).value;
 	let value = Number(value_text);
 	
-	if (value_text.length == 0 || Math.abs(value - Math.floor(value)) > 0) {
+	if (value_text.length == 0 || Math.abs(value - Math.floor(value)) > 0 || value < -2147483647 || value > 2147483647) {
 		value = NaN;
 	}
 	return value;

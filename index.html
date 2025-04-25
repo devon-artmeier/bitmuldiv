@@ -8,19 +8,15 @@
 	<body onresize="resizeTextAreas()">
 		<div id="content">
 			<h1>Multiplication/Division Bitshift Calculator</h1>
-			<p>This is a tool to calculate multiplications and divisions using only bitshifts.</p>
+			<p>This is a tool to calculate multiplications and divisions of integers using only bitshifts and basic arithmetic.</p>
 
 			<table>
 				<tr>
-					<td style="width:72px;">Division</td>
-					<td><input type="checkbox" id="division-mode" onclick="changeMode(this);"></td>
-				</tr>
-				<tr>
-					<td id="value-header"></td>
+					<td id="value-header">Multiplier/divisor</td>
 					<td><input type="number" id="value" value="1" oninput="calculate()"></td>
 				</tr>
 				<tr id="division-step-block">
-					<td>Max steps</td>
+					<td>Max division steps</td>
 					<td><input type="number" id="division-steps" min="1" value="3" oninput="calculate()"></td>
 				</tr>
 			</table>
@@ -28,13 +24,19 @@
 			<table id="result-table">
 				<tr>
 					<td>
-						<label for="result">Result</label><br>
-						<textarea id="result" rows="1" readonly></textarea>
+						<label for="muliplication-result">Multiplication</label><br>
+						<textarea id="muliplication-result" rows="1" readonly></textarea>
 					</td>
 				</tr>
-				<tr id="division-error-block">
+				<tr>
 					<td>
-						<label for="division-error">Margin of error</label><br>
+						<label for="division-result">Division</label><br>
+						<textarea id="division-result" rows="1" readonly></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="division-error">Division margin of error</label><br>
 						<textarea id="division-error" rows="2" readonly></textarea>
 					</td>
 				</tr>
@@ -44,6 +46,10 @@
 			<p>Because this tool only deals with integers, if you want to include fractional multiplications and divisions, you should split them into separate calculations.</p>
 			<p>For example, if you want to multiply by 1.5, then you should do a multiplication by 3 and then a division by 2. This is because <b>(n * 1.5) = (n * (3/2))</b>.</p>
 			<p>If you want to divide by 1.5, then you do a multiplication by 2 and then a division by 3. This is because a division is the same as a multiplication of the reciprocal of the value you want to divide by (in this case <b>(n / (3/2)) = (n * (2/3))</b>).</p>
+		
+			<h2>What About Modulo?</h2>
+			<p>That can simply be done by taking the quotient of a division, multiplying back the divisor, and getting the difference between that and the dividend, like so:</p>
+			<code>quotient&nbsp;=&nbsp;dividend&nbsp;/&nbsp;divisor<br>modulo&nbsp;&nbsp;&nbsp;=&nbsp;dividend&nbsp;-&nbsp;(quotient&nbsp;*&nbsp;divisor)</code>
 		</div>
 		
 		<script src="functions.js"></script>
