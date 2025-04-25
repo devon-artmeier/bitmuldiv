@@ -18,8 +18,6 @@
 
 void CalculateMultiplication(long long multiplier)
 {
-	std::cout << "Multiplication:" << std::endl << "    ";
-
 	switch (multiplier) {
 		case 0:
 			std::cout << "0" << std::endl;
@@ -63,37 +61,36 @@ void CalculateMultiplication(long long multiplier)
 		}
 	}
 
-	int mode = (steps[0].size() <= steps[1].size()) ? 0 : 1;
-	if (steps[mode].size() == 0) {
-		mode ^= 1;
-	}
+	for (int mode = 0; mode <= 1; mode++) {
+		std::cout << "Multiplication (" << (mode == 0 ? "additions" : "subtractions") << "):" << std::endl << "    ";
 
-	if (negative && steps[mode].size() > 0) {
-		std::cout << "-(";
-	}
-
-	for (int i = 0; i < steps[mode].size(); i++) {
-		if (i > 0) {
-			std::cout << ((mode == 0) ? " + " : " - ");
+		if (negative && steps[mode].size() > 0) {
+			std::cout << "-(";
 		}
 
-		if (steps[mode][i] == 0) {
-			std::cout << "n";
-		} else {
-			if (steps[mode].size() > 1) {
-				std::cout << "(";
+		for (int i = 0; i < steps[mode].size(); i++) {
+			if (i > 0) {
+				std::cout << ((mode == 0) ? " + " : " - ");
 			}
-			std::cout << "n << " << steps[mode][i];
-			if (steps[mode].size() > 1) {
-				std::cout << ")";
+
+			if (steps[mode][i] == 0) {
+				std::cout << "n";
+			} else {
+				if (steps[mode].size() > 1) {
+					std::cout << "(";
+				}
+				std::cout << "n << " << steps[mode][i];
+				if (steps[mode].size() > 1) {
+					std::cout << ")";
+				}
 			}
 		}
-	}
 
-	if (negative && steps[mode].size() > 0) {
-		std::cout << ")";
+		if (negative && steps[mode].size() > 0) {
+			std::cout << ")";
+		}
+		std::cout << std::endl;
 	}
-	std::cout << std::endl;
 }
 
 static void PrintDivisionError(const double original, const double actual)
