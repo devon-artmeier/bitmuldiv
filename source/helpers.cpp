@@ -39,28 +39,24 @@ bool CheckArgument(const int argc, char* argv[], int& index, const std::string& 
 	return false;
 }
 
-std::string RemoveTrailingChar(const std::string& str, const char remove)
-{
-	std::string str_out = str;
-	str_out.erase(str_out.find_last_not_of(remove) + 1, std::string::npos);
-	return str_out;
-}
-
 std::string GetDecimal(double value)
 {
-	int precision = 15;
+	const int precision = 15;
 
 	bool negative = value < 0;
 	value = std::abs(value);
 
-	long long integer = static_cast<long long>(std::floor(value));
-	long long decimal = static_cast<long long>((value - integer) * std::pow(10, precision));
+	long long integer = std::floor(value);
+	long long decimal = (value - std::floor(value)) * std::pow(10, precision);
 
-	if (decimal == 0) {
-		return (negative ? "-" : "") + std::to_string(integer);
+	std::string str = std::to_string(integer);
+
+	if (decimal != 0) {
+		str += "." + std::string(precision - static_cast<int>(std::log10(decimal) + 1), '0') + std::to_string(decimal);
+		str.erase(str.find_last_not_of('0') + 1, std::string::npos);
 	}
-	return (negative ? "-" : "") + std::to_string(integer) + "." +
-	       std::string(precision - std::floor(std::log10(decimal)) - 1, '0') + RemoveTrailingChar(std::to_string(decimal), '0');
+
+	return (negative ? "-" : "") + str;
 }
 
 std::string GetFraction(double value)

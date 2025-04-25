@@ -19,26 +19,19 @@
 int main(int argc, char* argv[])
 {
 	if (argc < 2) {
-		std::cout << "Usage: bitshift_mul_div <-d> <-s [steps]> [value]" << std::endl << std::endl <<
-		             "           <-d>         - Set to division mode" << std::endl <<
+		std::cout << "Usage: bitshift_mul_div <-s [steps]> [value]" << std::endl << std::endl <<
 		             "           <-s [steps]> - Max division step count (default = 3)" << std::endl <<
-		             "           [value]      - Multiplier or divisor (integers only)" << std::endl << std::endl;
+		             "           [value]      - Multiplier/divisor (integers only)" << std::endl << std::endl;
 		return -1;
 	}
 
 	try {
-		bool      division_mode      = false;
 		long long value              = 0;
 		bool      got_value          = false;
 		int       division_steps     = 3;
 		bool      got_division_steps = false;
 
 		for (int i = 1; i < argc; i++) {
-			if (StringToLower(argv[i]).compare("-d") == 0) {
-				division_mode = true;
-				continue;
-			}
-
 			if (CheckArgument(argc, argv, i, "s")) {
 				if (got_division_steps) {
 					throw std::runtime_error("Max division step count already defined.");
@@ -73,11 +66,8 @@ int main(int argc, char* argv[])
 			throw std::runtime_error("Multiplier/divisor not defined.");
 		}
 
-		if (!division_mode) {
-			CalculateMultiplication(value);
-		} else {
-			CalculateDivision(value, division_steps);
-		}
+		CalculateMultiplication(value);
+		CalculateDivision(value, division_steps);
 	} catch (std::exception& e) {
 		std::cout << "Error: " << e.what() << std::endl;
 		return -1;
