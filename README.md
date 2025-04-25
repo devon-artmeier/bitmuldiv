@@ -18,3 +18,10 @@ Because this tool only deals with integers, if you want to include fractional mu
 For example, if you want to multiply by 1.5, then you should do a multiplication by 3 and then a division by 2. This is because **(n * 1.5) = (n * (3/2))**.
 
 If you want to divide by 1.5, then you do a multiplication by 2 and then a division by 3. This is because a division is the same as a multiplication of the reciprocal of the value you want to divide by (in this case **(n / (3/2)) = (n * (2/3))**).
+
+## What About Modulo?
+
+That can simply be done by taking the quotient of a division, multiplying back the divisor, and getting the difference between that and the dividend, like so:
+
+    quotient = dividend / divisor
+    modulo   = dividend - (quotient * divisor)
