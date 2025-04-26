@@ -19,7 +19,7 @@
 int main(int argc, char* argv[])
 {
 	if (argc < 2) {
-		std::cout << "Usage: bitshift_mul_div <-s [steps]> [value]" << std::endl << std::endl <<
+		std::cout << "Usage: bitmuldiv <-s [steps]> [value]" << std::endl << std::endl <<
 		             "           <-s [steps]> - Max division step count (default = 3)" << std::endl <<
 		             "           [value]      - Multiplier/divisor (integers only)" << std::endl << std::endl;
 		return -1;

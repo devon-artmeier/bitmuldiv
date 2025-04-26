@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
-project(bitshift_mul_div LANGUAGES CXX)
+project(bitmuldiv LANGUAGES CXX)
 
-add_executable(bitshift_mul_div
+add_executable(bitmuldiv
 	"src/calculate.cpp"
 	"src/helpers.cpp"
 	"src/main.cpp")

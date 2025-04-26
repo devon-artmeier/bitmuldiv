@@ -1,12 +1,12 @@
 # Multiplication/Division Bitshift Calculator
 
-[![Build Status](https://github.com/devon-artmeier/bitshift_mul_div/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/devon-artmeier/bitshift_mul_div/actions/workflows/cmake-multi-platform.yml)
+[![Build Status](https://github.com/devon-artmeier/bitmuldiv/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/devon-artmeier/bitmuldiv/actions/workflows/cmake-multi-platform.yml)
 
 This is a tool to calculate multiplications and divisions using only bitshifts and basic arithmetic.
 
 ## Usage
     
-    Usage: bitshift_mul_div <-s [steps]> [value]
+    Usage: bitmuldiv <-s [steps]> [value]
                <-s [steps]> - Max division step count (default = 3)
                [value]      - Multiplier/divisor (integers only)
 
