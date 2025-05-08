@@ -6,9 +6,9 @@ This is a tool to calculate multiplications and divisions using only bitshifts a
 
 ## Usage
     
-    Usage: bitmuldiv <-s [steps]> [value]
-               <-s [steps]> - Max division step count (default = 3)
-               [value]      - Multiplier/divisor (integers only)
+    bitmuldiv <-s [steps]> [value]
+        <-s [steps]> - Max division step count (default = 3)
+        [value]      - Multiplier/divisor (integers only)
 
 ## What About Fractions?
 
