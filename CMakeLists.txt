@@ -5,3 +5,5 @@ add_executable(bitmuldiv
 	"src/calculate.cpp"
 	"src/helpers.cpp"
 	"src/main.cpp")
+
+install(TARGETS bitmuldiv)
