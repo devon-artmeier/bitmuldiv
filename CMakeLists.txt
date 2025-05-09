@@ -6,4 +6,4 @@ add_executable(bitmuldiv
 	"src/helpers.cpp"
 	"src/main.cpp")
 
-install(TARGETS bitmuldiv)
+install(TARGETS bitmuldiv CONFIGURATIONS Release)
