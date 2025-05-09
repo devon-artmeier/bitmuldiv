@@ -5,7 +5,7 @@
 ifeq ($(OS),Windows_NT)
 RMDIR                := rmdir /s /q
 else
-RMDIR                := -rf
+RMDIR                := rm -rf
 endif
 
 # ------------------------------------------------------------------------------
