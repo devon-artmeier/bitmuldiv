@@ -10,6 +10,13 @@ This is a tool to calculate multiplications and divisions using only bitshifts a
         <-s [steps]> - Max division step count (default = 3)
         [value]      - Multiplier/divisor (integers only)
 
+## Build Instructions
+
+CMake is required to build this.
+
+* On Windows, you can run "make.bat" and the built executable will be put in the "out/bin" folder.
+* On other systems, you can call "make" and then "make install".
+
 ## What About Fractions?
 
 Because this tool only deals with integers, if you want to include fractional multiplications and divisions, you should split them into separate calculations.
